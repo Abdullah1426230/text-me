@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة اختبرني الذكية | المحاكي الذكي للمراجع</title>
-    <link rel="icon" href="https://via.placeholder.com/32" type="image/png">
-    <!-- إعدادات الـ PWA -->
-    <meta name="theme-color" content="#020617">
-    <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22%D9%85%D9%86%D8%B5%D8%A9%20%D8%A7%DAE%D8%AE%D8%AA%D8%A8%D8%B1%D9%86%D9%8A%20%D8%A7%D9%84%D8%B0%D9%83%D9%8A%D8%A9%22%2C%22short_name%22%3A%22SmartQuiz%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23020617%22%2C%22theme_color%22%3A%22%23020617%22%2C%22icons%22%3A%5B%5D%7D">
-    <link rel="apple-touch-icon" href="https://via.placeholder.com/192">
+    <title>منصة اختبرني الذكية</title>
+    
+    <!-- إعدادات PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#060d2e">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3135/3135715.png">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -189,13 +189,12 @@
     </div>
 
     <script>
-        // تفعيل Service Worker للـ PWA
+        // تسجيل الـ Service Worker للـ PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                const swCode = `self.addEventListener('fetch', function(event) {});`;
-                const blob = new Blob([swCode], { type: 'text/javascript' });
-                const swUrl = URL.createObjectURL(blob);
-                navigator.serviceWorker.register(swUrl).catch(err => console.log('SW registration failed:', err));
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered!', reg))
+                    .catch(err => console.log('Service Worker registration failed:', err));
             });
         }
 
@@ -223,7 +222,6 @@
             const files = event.target.files;
             if (!files || files.length === 0) return;
 
-            const infoEl = document.getElementById('pdfInfo');
             const box = document.getElementById('fileAnalysisBox');
             const badge = document.getElementById('detectedTypeBadge');
             const textEl = document.getElementById('fileClassificationText');
